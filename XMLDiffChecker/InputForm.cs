@@ -43,7 +43,7 @@ namespace XMLDiffChecker
         private void BrowseButtonA_Click(object sender, EventArgs e)
         {
             FileAPath.Text = BrowseToFile();
-            CompareButton.Select();
+            BrowseButtonB.Select();
         }
 
         private void BrowseButtonB_Click(object sender, EventArgs e)

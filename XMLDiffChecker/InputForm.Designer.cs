@@ -61,7 +61,7 @@
             this.FileAPath.Location = new System.Drawing.Point(12, 29);
             this.FileAPath.Name = "FileAPath";
             this.FileAPath.Size = new System.Drawing.Size(478, 20);
-            this.FileAPath.TabIndex = 2;
+            this.FileAPath.TabIndex = 0;
             // 
             // FileBPath
             // 
@@ -75,7 +75,7 @@
             this.BrowseButtonA.Location = new System.Drawing.Point(496, 29);
             this.BrowseButtonA.Name = "BrowseButtonA";
             this.BrowseButtonA.Size = new System.Drawing.Size(75, 23);
-            this.BrowseButtonA.TabIndex = 4;
+            this.BrowseButtonA.TabIndex = 0;
             this.BrowseButtonA.Text = "Browse";
             this.BrowseButtonA.UseVisualStyleBackColor = true;
             this.BrowseButtonA.Click += new System.EventHandler(this.BrowseButtonA_Click);
