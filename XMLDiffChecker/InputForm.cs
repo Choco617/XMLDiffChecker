@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml;
+using static System.Windows.Forms.AxHost;
 
 namespace XMLDiffChecker
 {
@@ -55,11 +56,13 @@ namespace XMLDiffChecker
         private void BrowseButtonA_Click(object sender, EventArgs e)
         {
             FileAPath.Text = BrowseToFile();
+            CompareButton.TabIndex = 0;
         }
 
         private void BrowseButtonB_Click(object sender, EventArgs e)
         {
             FileBPath.Text = BrowseToFile();
+            CompareButton.TabIndex = 0;
         }
 
         private void CompareButton_Click(object sender, EventArgs e)
@@ -87,30 +90,84 @@ namespace XMLDiffChecker
             */
 
             XmlDocument docA = new XmlDocument();
+            var foldersA = new List<FolderEntry>();
             docA.Load(FileAPath.Text);
             XmlNode root = docA.DocumentElement;
-            /*
-            foreach(XmlNode node in docA.DocumentElement.ChildNodes)
-            {
-                Console.WriteLine($"name {node.Name}, text {node.InnerText}");
-            }
-            */
-            ReportXML("", root);
-        }
-            public void ReportXML(string sPath, XmlNode node)
-            {
-                foreach(XmlNode SomeNode in node.ChildNodes)
-                {
-                    var attribute = SomeNode.Attributes["name"];
-                    string sName = "";
-                    if (attribute != null) { sName = attribute.Value; }
-                    if (SomeNode.Name != "file")
-                    {
-                        Console.WriteLine($"{sPath}/{sName}");
-                    }
+            ReportXML("", root, foldersA);
 
-                    ReportXML(sPath + "/" + sName, SomeNode);
+            XmlDocument docB = new XmlDocument();
+            var foldersB = new List<FolderEntry>();
+            docB.Load(FileBPath.Text);
+            root = docB.DocumentElement;
+            ReportXML("", root, foldersB);
+
+            var UniqueToB = new List<FolderEntry>();
+
+            // build list of entries unique to B
+            foreach(FolderEntry feB in foldersB)
+            {
+                bool bFound = false;
+                foreach(FolderEntry feA in foldersA)
+                {
+                    if(feA.Name == feB.Name)
+                    {
+                        bFound = true;
+                        break;
+                    }
                 }
+                if(bFound == false)
+                {
+                    UniqueToB.Add(feB);
+                    //Console.WriteLine($"just added to UniqueToB: {feB.Path}/{feB.Name}");
+                }
+            }
+
+            // record
+            if( UniqueToB.Count > 0)
+            {
+                string sFileAPathNoPath = FileAPath.Text.Substring(FileAPath.Text.LastIndexOf("\\") + 1);
+                sFileAPathNoPath = sFileAPathNoPath.Substring(0, sFileAPathNoPath.LastIndexOf("."));
+                string sFileBPathNoPath = FileBPath.Text.Substring(FileBPath.Text.LastIndexOf("\\") + 1);
+                sFileBPathNoPath = sFileBPathNoPath.Substring(0, sFileBPathNoPath.LastIndexOf("."));
+                string sReportFilename = sFileAPathNoPath + " to " + sFileBPathNoPath;
+                string sReportDir = FileBPath.Text.Substring(0, FileBPath.Text.LastIndexOf("\\"));
+                string sReportFullPath = sReportDir + "\\" + sReportFilename + ".txt";
+
+                //Console.WriteLine($"want to put a text file at: \n{sReportFullPath}");
+
+                
+                using (StreamWriter sw = new StreamWriter(sReportFullPath))
+                {
+                    foreach(FolderEntry UniqueEntry in UniqueToB)
+                    {
+                        sw.WriteLine(UniqueEntry.Path + "/" + UniqueEntry.Name);
+                    }
+                }
+
+
+                MessageBox.Show($"Changes found - see report file\n{sReportFilename}", "Report");
+            }
+            else
+            {
+                MessageBox.Show("No changes found!", "Report");
+            }
+            
+
+        }
+            public void ReportXML(string sPath, XmlNode node, List<FolderEntry> WhichList)
+            {
+                string sName = "";
+                var attribute = node.Attributes["name"];
+                if (attribute != null) { sName = attribute.Value; }
+
+                if (node.Name != "file") 
+                { 
+                    //Console.WriteLine($"{sPath}/{sName}");
+                    FolderEntry NewFolder = new FolderEntry { Path = sPath, Name = sName };
+                    WhichList.Add( NewFolder );
+                }
+                
+                foreach (XmlNode SomeNode in node.ChildNodes) { ReportXML(sPath + "/" + sName, SomeNode, WhichList); }
             }
     }
 
@@ -149,4 +206,22 @@ namespace XMLDiffChecker
             return output;
         }
     }
+
+    public class FolderEntry
+    {
+        private string _path;
+        public string Path
+        {
+            get { return _path; }
+            set { _path = value; }
+        }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+    }
+    
 }
