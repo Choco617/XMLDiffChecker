@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml;
 using static System.Windows.Forms.AxHost;
+using System.Diagnostics;
 
 namespace XMLDiffChecker
 {
@@ -25,19 +26,8 @@ namespace XMLDiffChecker
 
         public string BrowseToFile()
         {
-            string sDefaultPath = "D:\\MattSpace\\Documents\\Soulseek user file logs";
+            string sDefaultPath = "";
             string sUserPath = "";
-
-            /*
-            folderBrowserDialog1.ShowNewFolderButton = true;
-            folderBrowserDialog1.SelectedPath = sDefaultPath;
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                sUserPath = folderBrowserDialog1.SelectedPath;
-                Environment.SpecialFolder root = folderBrowserDialog1.RootFolder;
-            }
-            */
 
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Title = "Browse to XML file:";
@@ -45,10 +35,7 @@ namespace XMLDiffChecker
             ofd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*";
             ofd.FilterIndex = 2;
             ofd.RestoreDirectory = true;
-            if(ofd.ShowDialog() == DialogResult.OK)
-            {
-                sUserPath = ofd.FileName;
-            }
+            if(ofd.ShowDialog() == DialogResult.OK) { sUserPath = ofd.FileName; }
 
             return sUserPath;
         }
@@ -56,38 +43,28 @@ namespace XMLDiffChecker
         private void BrowseButtonA_Click(object sender, EventArgs e)
         {
             FileAPath.Text = BrowseToFile();
-            CompareButton.TabIndex = 0;
+            CompareButton.Select();
         }
 
         private void BrowseButtonB_Click(object sender, EventArgs e)
         {
             FileBPath.Text = BrowseToFile();
-            CompareButton.TabIndex = 0;
+            CompareButton.Select();
         }
 
         private void CompareButton_Click(object sender, EventArgs e)
         {
-            //Data XML_A = new Data();
-            //XML_A = XmlManager.XmlDataReader(FileAPath.Text);
-            /*
-            string[] sXML_A;
-            sXML_A = XmlManager.XmlDataReader(FileAPath.Text);
-            foreach(string sEntry in sXML_A)
+            if(FileAPath.Text == "" | FileBPath.Text == "")
             {
-                Console.Write(sEntry);
+                MessageBox.Show("Oops! Must choose two files.");
+                return;
             }
-            */
 
-            /*
-            var xmlDoc = XDocument.Load(new StreamReader(FileAPath.Text));
-            dynamic root = new ExpandoObject();
-            dynamic XML_A = XmlWrapper.Convert(root);
-            string[] sXML_A = (string[])XML_A;
-            foreach(string sEntry in sXML_A)
+            if(FileAPath.Text == FileBPath.Text)
             {
-                Console.WriteLine(sEntry);
+                MessageBox.Show("Oops! Files must be different.");
+                return;
             }
-            */
 
             XmlDocument docA = new XmlDocument();
             var foldersA = new List<FolderEntry>();
@@ -115,11 +92,7 @@ namespace XMLDiffChecker
                         break;
                     }
                 }
-                if(bFound == false)
-                {
-                    UniqueToB.Add(feB);
-                    //Console.WriteLine($"just added to UniqueToB: {feB.Path}/{feB.Name}");
-                }
+                if(bFound == false) { UniqueToB.Add(feB); }
             }
 
             // record
@@ -133,9 +106,6 @@ namespace XMLDiffChecker
                 string sReportDir = FileBPath.Text.Substring(0, FileBPath.Text.LastIndexOf("\\"));
                 string sReportFullPath = sReportDir + "\\" + sReportFilename + ".txt";
 
-                //Console.WriteLine($"want to put a text file at: \n{sReportFullPath}");
-
-                
                 using (StreamWriter sw = new StreamWriter(sReportFullPath))
                 {
                     foreach(FolderEntry UniqueEntry in UniqueToB)
@@ -144,15 +114,15 @@ namespace XMLDiffChecker
                     }
                 }
 
-
                 MessageBox.Show($"Changes found - see report file\n{sReportFilename}", "Report");
+                Process.Start("notepad.exe", sReportFullPath);
             }
             else
             {
                 MessageBox.Show("No changes found!", "Report");
             }
-            
 
+            this.Close();
         }
             public void ReportXML(string sPath, XmlNode node, List<FolderEntry> WhichList)
             {
@@ -162,7 +132,6 @@ namespace XMLDiffChecker
 
                 if (node.Name != "file") 
                 { 
-                    //Console.WriteLine($"{sPath}/{sName}");
                     FolderEntry NewFolder = new FolderEntry { Path = sPath, Name = sName };
                     WhichList.Add( NewFolder );
                 }
