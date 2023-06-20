@@ -30,11 +30,12 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.FileAPath = new System.Windows.Forms.TextBox();
+            this.FileBPath = new System.Windows.Forms.TextBox();
             this.BrowseButtonA = new System.Windows.Forms.Button();
             this.BrowseButtonB = new System.Windows.Forms.Button();
             this.CompareButton = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -55,19 +56,19 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "File B";
             // 
-            // textBox1
+            // FileAPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 29);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(478, 20);
-            this.textBox1.TabIndex = 2;
+            this.FileAPath.Location = new System.Drawing.Point(12, 29);
+            this.FileAPath.Name = "FileAPath";
+            this.FileAPath.Size = new System.Drawing.Size(478, 20);
+            this.FileAPath.TabIndex = 2;
             // 
-            // textBox2
+            // FileBPath
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 78);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(478, 20);
-            this.textBox2.TabIndex = 3;
+            this.FileBPath.Location = new System.Drawing.Point(12, 78);
+            this.FileBPath.Name = "FileBPath";
+            this.FileBPath.Size = new System.Drawing.Size(478, 20);
+            this.FileBPath.TabIndex = 3;
             // 
             // BrowseButtonA
             // 
@@ -77,6 +78,7 @@
             this.BrowseButtonA.TabIndex = 4;
             this.BrowseButtonA.Text = "Browse";
             this.BrowseButtonA.UseVisualStyleBackColor = true;
+            this.BrowseButtonA.Click += new System.EventHandler(this.BrowseButtonA_Click);
             // 
             // BrowseButtonB
             // 
@@ -86,6 +88,7 @@
             this.BrowseButtonB.TabIndex = 5;
             this.BrowseButtonB.Text = "Browse";
             this.BrowseButtonB.UseVisualStyleBackColor = true;
+            this.BrowseButtonB.Click += new System.EventHandler(this.BrowseButtonB_Click);
             // 
             // CompareButton
             // 
@@ -95,6 +98,7 @@
             this.CompareButton.TabIndex = 6;
             this.CompareButton.Text = "Compare";
             this.CompareButton.UseVisualStyleBackColor = true;
+            this.CompareButton.Click += new System.EventHandler(this.CompareButton_Click);
             // 
             // InputForm
             // 
@@ -104,8 +108,8 @@
             this.Controls.Add(this.CompareButton);
             this.Controls.Add(this.BrowseButtonB);
             this.Controls.Add(this.BrowseButtonA);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.FileBPath);
+            this.Controls.Add(this.FileAPath);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "InputForm";
@@ -119,11 +123,12 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox FileAPath;
+        private System.Windows.Forms.TextBox FileBPath;
         private System.Windows.Forms.Button BrowseButtonA;
         private System.Windows.Forms.Button BrowseButtonB;
         private System.Windows.Forms.Button CompareButton;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

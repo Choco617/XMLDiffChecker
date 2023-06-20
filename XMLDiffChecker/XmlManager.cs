@@ -8,7 +8,24 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Reflection;
 
-namespace SWPropertyViewer
+public class Data
+{
+    private string _path;
+    public string Path
+    {
+        get { return _path; }
+        set { _path = value; }
+    }
+
+    private string _entry;
+    public string Entry
+    {
+        get { return _entry; }
+        set { _entry = value; }
+    }
+}
+
+namespace XMLDiffChecker
 {
     class XmlManager
     {
@@ -23,11 +40,12 @@ namespace SWPropertyViewer
         }
         */
 
-        public static Data XmlDataReader(string filename)
+        public static string[] XmlDataReader(string filename)
         {
             XmlSerializer xs = new XmlSerializer(typeof(Data));
             FileStream reader = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-            Data obj = (Data)xs.Deserialize(reader);
+            //Data obj = (Data)xs.Deserialize(reader);
+            string[] obj = (string[])xs.Deserialize(reader);
             reader.Close();
 
             return obj;

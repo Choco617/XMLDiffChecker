@@ -1,0 +1,11 @@
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\bin\Debug\XMLDiffChecker.exe.config
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\bin\Debug\XMLDiffChecker.exe
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\bin\Debug\XMLDiffChecker.pdb
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.csproj.AssemblyReference.cache
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.csproj.SuggestedBindingRedirects.cache
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.InputForm.resources
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.Properties.Resources.resources
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.csproj.GenerateResource.cache
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.csproj.CoreCompileInputs.cache
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.exe
+C:\Users\matt\source\repos\XMLDiffChecker\XMLDiffChecker\obj\Debug\XMLDiffChecker.pdb
